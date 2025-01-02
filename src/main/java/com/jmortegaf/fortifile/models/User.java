@@ -25,13 +25,10 @@ public class User implements UserDetails {
     private Long id;
     @Column(unique = true)
     private String username;
-    @Column(unique = true)
-    private String email;
     private String password;
 
     public User(UserRegisterDTO userRegisterDTO, String encodedPassword) {
         username=userRegisterDTO.username();
-        email=userRegisterDTO.email();
         password=encodedPassword;
     }
 
