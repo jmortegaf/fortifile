@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserRegisterService {
@@ -28,12 +29,7 @@ public class UserRegisterService {
     public ResponseEntity<?> register(UserRegisterDTO userRegisterDTO) {
         userRegisterValidators.forEach(validator->validator.validate(userRegisterDTO));
         User user = new User(userRegisterDTO,passwordEncoder.encode(userRegisterDTO.password()));
-        try {
-            userRepository.save(user);
-            return ResponseEntity.ok().build();
-        }catch (Exception ex){
-            System.out.println(ex.getMessage());
-            return ResponseEntity.badRequest().build();
-        }
+        userRepository.save(user);
+        return ResponseEntity.ok(Map.of("message","User created"));
     }
 }

@@ -1,5 +1,6 @@
 package com.jmortegaf.fortifile.exceptions.handlers;
 
+import com.jmortegaf.fortifile.exceptions.LoginErrorException;
 import com.jmortegaf.fortifile.exceptions.UserRegisterErrorException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,13 @@ public class ErrorHandler {
     @ExceptionHandler(UserRegisterErrorException.class)
     public ResponseEntity<?> invalidUserRegisterData(UserRegisterErrorException ex){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(Map.of("error","Bad Request",
-                        "message",ex.getMessage()));
+                .body(Map.of("message",ex.getMessage()));
     }
+
+    @ExceptionHandler(LoginErrorException.class)
+    public ResponseEntity<?> loginError(LoginErrorException ex){
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(Map.of("message",ex.getMessage()));
+    }
+
 }
